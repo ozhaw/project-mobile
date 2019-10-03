@@ -8,7 +8,7 @@ public class Device implements BaseEntity {
 
     final static String NAME = "device";
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     public long id;
     public String deviceId;
     public String type;

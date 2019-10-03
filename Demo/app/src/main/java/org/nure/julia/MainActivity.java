@@ -21,15 +21,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
+import android.widget.Toast;
 
 import org.nure.julia.dto.AccountDto;
 
 public class MainActivity extends AppCompatActivity {
-
-    public static final String ACCOUNT = "account";
-
     private AppBarConfiguration mAppBarConfiguration;
-    private AccountDto account;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,13 +41,22 @@ public class MainActivity extends AppCompatActivity {
         NavigationView navigationView = findViewById(R.id.nav_view);
 
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow,
-                R.id.nav_tools, R.id.nav_share, R.id.nav_send)
+                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow, R.id.nav_send)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+        if (this.getIntent().hasExtra("afterDeviceAdding")
+                && this.getIntent().hasExtra("deviceWasAdded")
+                && this.getIntent().getBooleanExtra("afterDeviceAdding", false) ) {
+
+            Toast.makeText(this, this.getIntent().getBooleanExtra("deviceWasAdded", false)
+                            ? "Device was added"
+                            : "Device was previously added",
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

@@ -92,6 +92,10 @@ public class LoginActivity extends AppCompatActivity {
         AuthenticationService.INSTANCE.setGoogleSignInClient(googleSignInClient);
         AuthenticationService.INSTANCE.setAccountDto(accountDto);
 
+        if (this.getIntent() != null && this.getIntent().getExtras() != null) {
+            intent.putExtras(this.getIntent().getExtras());
+        }
+
         startActivity(intent);
         finish();
     }

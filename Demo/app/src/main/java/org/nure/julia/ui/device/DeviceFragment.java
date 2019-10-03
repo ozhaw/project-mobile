@@ -21,19 +21,11 @@ public class DeviceFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+
         DeviceViewModel galleryViewModel = ViewModelProviders.of(this).get(DeviceViewModel.class);
         View root = inflater.inflate(R.layout.fragment_gallery, container, false);
         final TextView textView = root.findViewById(R.id.text_gallery);
         galleryViewModel.getText().observe(this, textView::setText);
-
-        Button button = root.findViewById(R.id.button2);
-        button.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), DeviceActivity.class);
-            intent.setAction(NfcAdapter.ACTION_NDEF_DISCOVERED);
-            intent.setType(DeviceActivity.MIME_TEXT_PLAIN);
-            intent.addCategory("android.intent.category.DEFAULT");
-            startActivityForResult(intent, 1);
-        });
 
         return root;
     }

@@ -10,7 +10,6 @@ public class DeviceViewModel extends ViewModel {
 
     public DeviceViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is gallery fragment");
     }
 
     public LiveData<String> getText() {

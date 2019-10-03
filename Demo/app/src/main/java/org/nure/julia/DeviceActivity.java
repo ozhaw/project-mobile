@@ -157,15 +157,18 @@ public class DeviceActivity extends AppCompatActivity {
         }
 
         private void saveDevice(String result) {
+            Intent intent = new Intent(activity, LoginActivity.class);
+
             DeviceRepository deviceRepository = PersistenceContext.INSTANCE.getConnection().deviceRepository();
             Device device = new Gson().fromJson(result, Device.class);
             if (deviceRepository.getByDeviceId(device.deviceId) == null) {
                 PersistenceContext.INSTANCE.getConnection().deviceRepository().insert(device);
+                intent.putExtra("deviceWasAdded", true);
+            } else {
+                intent.putExtra("deviceWasAdded", false);
             }
-
-            Intent intent = new Intent(activity, MainActivity.class);
-            setResult(RESULT_OK, intent);
-            finish();
+            intent.putExtra("afterDeviceAdding", true);
+            startActivity(intent);
         }
 
         @Override
