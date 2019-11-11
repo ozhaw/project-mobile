@@ -6,7 +6,7 @@ import androidx.room.RoomDatabase;
 import org.nure.julia.database.entity.Device;
 import org.nure.julia.database.repository.DeviceRepository;
 
-@Database(entities = {Device.class}, version = 1, exportSchema = false)
+@Database(entities = {Device.class}, version = 2, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract DeviceRepository deviceRepository();
 }

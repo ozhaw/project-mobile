@@ -1,7 +1,5 @@
 package org.nure.julia.database;
 
-import android.app.Application;
-
 import androidx.room.Room;
 
 import org.nure.julia.ApplicationInstance;
@@ -13,7 +11,10 @@ public final class PersistenceContext {
 
     private PersistenceContext() {
         connection = Room.databaseBuilder(ApplicationInstance.getContext(),
-                AppDatabase.class, "database").allowMainThreadQueries().build();
+                AppDatabase.class, "database")
+                .allowMainThreadQueries()
+                .fallbackToDestructiveMigration()
+                .build();
     }
 
     public AppDatabase getConnection() {

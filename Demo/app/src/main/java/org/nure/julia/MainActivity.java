@@ -14,6 +14,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
+import com.pusher.pushnotifications.PushNotifications;
 
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -57,6 +58,9 @@ public class MainActivity extends AppCompatActivity {
                             : "Device was previously added",
                     Toast.LENGTH_SHORT).show();
         }
+
+        PushNotifications.start(getApplicationContext(), "9f9f0337-33b7-4ce6-afb3-0585c253506d");
+        PushNotifications.addDeviceInterest("hello");
     }
 
     @Override
