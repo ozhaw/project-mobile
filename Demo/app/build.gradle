@@ -5,7 +5,7 @@ android {
     buildToolsVersion "29.0.2"
     defaultConfig {
         applicationId "org.nure.julia"
-        minSdkVersion 22
+        minSdkVersion 24
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -36,10 +36,14 @@ dependencies {
     implementation 'com.facebook.android:facebook-login:5.5.1'
     implementation "android.arch.persistence.room:runtime:1.1.1"
     implementation 'com.google.code.gson:gson:2.8.5'
-    implementation 'com.google.firebase:firebase-core:17.2.0'
-    implementation 'com.google.firebase:firebase-messaging:20.0.0'
+    implementation 'com.google.firebase:firebase-core:17.2.1'
+    implementation 'com.google.firebase:firebase-messaging:20.1.0'
     implementation 'com.pusher:push-notifications-android:1.4.3'
-    implementation 'com.google.firebase:firebase-perf:19.0.0'
+    implementation 'com.google.firebase:firebase-perf:19.0.3'
+    implementation 'androidx.annotation:annotation:1.1.0'
+    implementation 'com.loopj.android:android-async-http:1.4.10'
+    implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation 'com.samigehi:loadingview:1.1'
     annotationProcessor "android.arch.persistence.room:compiler:1.1.1"
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'

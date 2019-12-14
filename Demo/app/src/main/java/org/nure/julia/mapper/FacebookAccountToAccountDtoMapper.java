@@ -16,7 +16,7 @@ public class FacebookAccountToAccountDtoMapper implements Mapper<JSONObject, Acc
         try {
             to.setName(from.getString("name"));
             to.setEmail(from.getString("email"));
-            to.setId("facebook:" + from.getString("id"));
+            to.setId(from.getString("id"));
             to.setPhotoUri(from.getJSONObject("picture").getJSONObject("data").getString("url"));
             to.setSystemType(SystemType.FACEBOOK);
         } catch (JSONException e) {

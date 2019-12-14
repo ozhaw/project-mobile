@@ -15,17 +15,17 @@
         android:id="@+id/nav_gallery"
         android:name="org.nure.julia.ui.device.DeviceFragment"
         android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        tools:layout="@layout/fragment_devices" />
 
     <fragment
         android:id="@+id/nav_slideshow"
-        android:name="org.nure.julia.ui.slideshow.SlideshowFragment"
+        android:name="org.nure.julia.ui.account.AccountFragment"
         android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        tools:layout="@layout/fragment_account" />
 
     <fragment
         android:id="@+id/nav_send"
-        android:name="org.nure.julia.ui.send.SendFragment"
+        android:name="org.nure.julia.ui.logout.LogoutFragment"
         android:label="@string/menu_send"
-        tools:layout="@layout/fragment_send" />
+        tools:layout="@layout/fragment_logout" />
 </navigation>

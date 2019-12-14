@@ -1,5 +1,6 @@
 package org.nure.julia;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Intent;
@@ -122,6 +123,7 @@ public class DeviceActivity extends AppCompatActivity {
         adapter.disableForegroundDispatch(activity);
     }
 
+    @SuppressLint("StaticFieldLeak")
     private class NdefReaderTask extends AsyncTask<Tag, Void, String> {
 
         @Override
@@ -157,7 +159,7 @@ public class DeviceActivity extends AppCompatActivity {
         }
 
         private void saveDevice(String result) {
-            Intent intent = new Intent(activity, LoginActivity.class);
+            Intent intent = new Intent(activity, MainActivity.class);
 
             DeviceRepository deviceRepository = PersistenceContext.INSTANCE.getConnection().deviceRepository();
             Device device = new Gson().fromJson(result, Device.class);

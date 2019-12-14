@@ -17,4 +17,10 @@
     <string name="menu_share">Share</string>
     <string name="menu_send">Logout</string>
     <string name="actions">Actions</string>
+    <string name="title_activity_login2">TechLimb</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
 </resources>

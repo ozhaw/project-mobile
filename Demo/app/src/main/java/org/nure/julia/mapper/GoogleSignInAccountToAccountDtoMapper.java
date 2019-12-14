@@ -11,7 +11,7 @@ public class GoogleSignInAccountToAccountDtoMapper implements Mapper<GoogleSignI
         AccountDto to = new AccountDto();
         to.setName(from.getDisplayName());
         to.setEmail(from.getEmail());
-        to.setId("google:" + from.getId());
+        to.setId(from.getId());
         to.setPhotoUri(from.getPhotoUrl().toString());
         to.setSystemType(SystemType.GOOGLE);
         return to;
