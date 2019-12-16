@@ -1,5 +1,6 @@
 package org.nure.julia;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -23,6 +24,8 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
 import org.nure.julia.auth.AuthenticationService;
+import org.nure.julia.database.PersistenceContext;
+import org.nure.julia.database.entity.Notification;
 
 public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
@@ -35,9 +38,16 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show());
+        FloatingActionButton add = findViewById(R.id.add);
+        add.setOnClickListener(view -> {
+            Intent intent = new Intent(this, DeviceActivity.class);
+
+            if (this.getIntent() != null && this.getIntent().getExtras() != null) {
+                intent.putExtras(this.getIntent().getExtras());
+            }
+
+            startActivity(intent);
+        });
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);

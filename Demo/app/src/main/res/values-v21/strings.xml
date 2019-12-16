@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="severity">Severity: %s</string>
+    <string name="advice">Advice: %s</string>
+    <string name="time">Time: %s</string>
+</resources>

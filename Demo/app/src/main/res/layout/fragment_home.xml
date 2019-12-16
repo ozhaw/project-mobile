@@ -1,19 +1,185 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/browser_actions_context_menu_min_padding">
 
-    <TextView
-        android:id="@+id/text_home"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/health_notif"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_marginBottom="@dimen/card_margin"
+        android:background="#00C90F0F"
+        android:padding="@dimen/activity_vertical_margin"
+        app:cardBackgroundColor="@color/browser_actions_title_color">
+
+        <ImageView
+            android:id="@+id/health_notif_icon"
+            android:layout_width="@dimen/simple_avatar_size"
+            android:layout_height="match_parent"
+            app:srcCompat="@android:drawable/ic_menu_myplaces"
+            tools:srcCompat="@android:drawable/ic_menu_myplaces" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/simple_avatar_size"
+            android:orientation="vertical"
+            android:padding="@dimen/com_facebook_likeboxcountview_text_padding">
+
+            <TextView
+                android:id="@+id/health_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|top"
+                android:gravity="top|end"
+                android:text="@string/health_notification"
+                android:textColor="@color/browser_actions_bg_grey"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/health_severity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|top"
+                android:layout_margin="@dimen/com_facebook_likeboxcountview_caret_width"
+                android:gravity="top|end"
+                android:text="@string/severity"
+                android:textColor="@color/browser_actions_bg_grey" />
+
+            <TextView
+                android:id="@+id/health_advice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|top"
+                android:layout_margin="@dimen/com_facebook_likeboxcountview_caret_width"
+                android:gravity="top|end"
+                android:text="@string/advice"
+                android:textColor="@color/browser_actions_bg_grey" />
+
+            <TextView
+                android:id="@+id/health_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|top"
+                android:layout_margin="@dimen/com_facebook_likeboxcountview_caret_width"
+                android:gravity="bottom|end"
+                android:text="@string/time"
+                android:textColor="@color/browser_actions_bg_grey" />
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/device_notif"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/card_margin"
+        android:background="#00C90F0F"
+        android:padding="@dimen/activity_vertical_margin"
+        app:cardBackgroundColor="@color/browser_actions_title_color">
+
+        <ImageView
+            android:id="@+id/device_notif_icon"
+            android:layout_width="@dimen/simple_avatar_size"
+            android:layout_height="match_parent"
+            app:srcCompat="@android:drawable/ic_menu_preferences"
+            tools:srcCompat="@android:drawable/ic_menu_preferences" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/simple_avatar_size"
+            android:orientation="vertical"
+            android:padding="@dimen/com_facebook_likeboxcountview_text_padding">
+
+            <TextView
+                android:id="@+id/device_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|top"
+                android:gravity="top|end"
+                android:text="@string/device_notification"
+                android:textColor="@color/browser_actions_bg_grey"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/device_severity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|top"
+                android:layout_margin="@dimen/com_facebook_likeboxcountview_caret_width"
+                android:gravity="top|end"
+                android:text="@string/severity"
+                android:textColor="@color/browser_actions_bg_grey" />
+
+            <TextView
+                android:id="@+id/device_advice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|top"
+                android:layout_margin="@dimen/com_facebook_likeboxcountview_caret_width"
+                android:gravity="top|end"
+                android:text="@string/advice"
+                android:textColor="@color/browser_actions_bg_grey" />
+
+            <TextView
+                android:id="@+id/device_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|top"
+                android:layout_margin="@dimen/com_facebook_likeboxcountview_caret_width"
+                android:gravity="bottom|end"
+                android:text="@string/time"
+                android:textColor="@color/browser_actions_bg_grey" />
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/total_notifications"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/card_margin"
+        android:background="#00C90F0F"
+        android:padding="@dimen/activity_vertical_margin"
+        app:cardBackgroundColor="@color/browser_actions_title_color">
+
+        <ImageView
+            android:id="@+id/total_notif_icon"
+            android:layout_width="@dimen/simple_avatar_size"
+            android:layout_height="match_parent"
+            app:srcCompat="@android:drawable/ic_menu_recent_history"
+            tools:srcCompat="@android:drawable/ic_menu_recent_history" />
+
+        <TextView
+            android:id="@+id/total_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:layout_margin="@dimen/com_facebook_likeboxcountview_text_size"
+            android:gravity="top|end"
+            android:text="@string/notification_history"
+            android:textColor="@color/browser_actions_bg_grey"
+            android:textStyle="bold" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/simple_avatar_size">
+
+            <LinearLayout
+                android:id="@+id/notification_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/com_facebook_likeview_text_size" />
+
+        </ScrollView>
+
+    </androidx.cardview.widget.CardView>
+</LinearLayout>

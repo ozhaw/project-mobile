@@ -3,6 +3,7 @@ package org.nure.julia;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.nfc.NdefMessage;
@@ -13,18 +14,33 @@ import android.nfc.tech.Ndef;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.loopj.android.http.JsonHttpResponseHandler;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.nure.julia.auth.AuthenticationService;
 import org.nure.julia.database.PersistenceContext;
 import org.nure.julia.database.entity.Device;
-import org.nure.julia.database.repository.DeviceRepository;
+import org.nure.julia.rest.RestClient;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
+
+import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.HttpEntity;
+import cz.msebera.android.httpclient.HttpStatus;
+import cz.msebera.android.httpclient.entity.ContentType;
+import cz.msebera.android.httpclient.entity.StringEntity;
+import cz.msebera.android.httpclient.message.BasicHeader;
 
 public class DeviceActivity extends AppCompatActivity {
     public static final String MIME_TEXT_PLAIN = "text/plain";
@@ -37,7 +53,7 @@ public class DeviceActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.device_added_activity);
 
         activity = this;
 
@@ -78,7 +94,7 @@ public class DeviceActivity extends AppCompatActivity {
             String type = intent.getType();
             if (MIME_TEXT_PLAIN.equals(type)) {
                 Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-                new NdefReaderTask().doInBackground(tag);
+                new NdefReaderTask(this).doInBackground(tag);
             } else {
                 Log.d(TAG, "Wrong mime type: " + type);
             }
@@ -89,7 +105,7 @@ public class DeviceActivity extends AppCompatActivity {
 
             for (String tech : techList) {
                 if (searchedTech.equals(tech)) {
-                    new NdefReaderTask().doInBackground(tag);
+                    new NdefReaderTask(this).doInBackground(tag);
                     break;
                 }
             }
@@ -125,6 +141,11 @@ public class DeviceActivity extends AppCompatActivity {
 
     @SuppressLint("StaticFieldLeak")
     private class NdefReaderTask extends AsyncTask<Tag, Void, String> {
+        private Context context;
+
+        public NdefReaderTask(Context context) {
+            this.context = context;
+        }
 
         @Override
         protected String doInBackground(Tag... params) {
@@ -139,7 +160,7 @@ public class DeviceActivity extends AppCompatActivity {
                     if (ndefRecord.getTnf() == NdefRecord.TNF_WELL_KNOWN && Arrays.equals(ndefRecord.getType(), NdefRecord.RTD_TEXT)) {
                         try {
                             String result = readText(ndefRecord);
-                            saveDevice(result);
+                            verify(result);
                         } catch (UnsupportedEncodingException e) {
                             Log.e(TAG, "Unsupported Encoding", e);
                         }
@@ -158,19 +179,86 @@ public class DeviceActivity extends AppCompatActivity {
                     payload.length - languageCodeLength - 1, textEncoding);
         }
 
-        private void saveDevice(String result) {
-            Intent intent = new Intent(activity, MainActivity.class);
+        private void saveDevice(Device device) {
+            PersistenceContext.INSTANCE.getConnection().deviceRepository().insert(device);
 
-            DeviceRepository deviceRepository = PersistenceContext.INSTANCE.getConnection().deviceRepository();
+            startMainIntent(true);
+        }
+
+        private void verify(String result) {
             Device device = new Gson().fromJson(result, Device.class);
-            if (deviceRepository.getByDeviceId(device.deviceId) == null) {
-                PersistenceContext.INSTANCE.getConnection().deviceRepository().insert(device);
-                intent.putExtra("deviceWasAdded", true);
-            } else {
-                intent.putExtra("deviceWasAdded", false);
-            }
-            intent.putExtra("afterDeviceAdding", true);
-            startActivity(intent);
+
+            setWaitMessage(device.deviceId, true);
+
+            AuthenticationService.INSTANCE.load().verify(context, accountDto -> {
+                Header[] headers = new Header[]{AuthenticationService.INSTANCE.getAuthorizationHeader()};
+
+                RestClient.get(context, "/device/api/device/external/" + device.deviceId, headers, null,
+                        new JsonHttpResponseHandler() {
+
+                            @Override
+                            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                                if (statusCode == HttpStatus.SC_OK) {
+                                    Toast.makeText(context, "Sorry, device was already registered for the user", Toast.LENGTH_LONG).show();
+                                    startMainIntent(false);
+                                } else {
+                                    addDevice(device);
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(int statusCode, Header[] headers, String error, Throwable throwable) {
+                                addDevice(device);
+                            }
+
+                            @Override
+                            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject jsonObject) {
+                                addDevice(device);
+                            }
+                        });
+            });
+        }
+
+        private void addDevice(Device device) {
+            Header[] headers = new Header[]{
+                    AuthenticationService.INSTANCE.getAuthorizationHeader(),
+                    new BasicHeader("userId", AuthenticationService.INSTANCE.getAccountDto().getUserId().toString())
+            };
+
+            final JsonObject json = new JsonObject();
+            json.addProperty("deviceId", device.deviceId);
+            json.addProperty("type", device.type);
+
+            final HttpEntity httpEntity = new StringEntity(json.toString(), ContentType.APPLICATION_JSON);
+
+            RestClient.post(context, "/device/api/device", headers, httpEntity, ContentType.APPLICATION_JSON.toString(),
+                    new JsonHttpResponseHandler() {
+
+                        @Override
+                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                            if (statusCode == HttpStatus.SC_OK) {
+                                try {
+                                    device.id = response.getLong("id");
+
+                                    saveDevice(device);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, String error, Throwable throwable) {
+                            throwable.printStackTrace();
+                            startMainIntent(false);
+                        }
+
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject jsonObject) {
+                            throwable.printStackTrace();
+                            startMainIntent(false);
+                        }
+                    });
         }
 
         @Override
@@ -179,5 +267,22 @@ public class DeviceActivity extends AppCompatActivity {
                 Toast.makeText(ApplicationInstance.getContext(), "Read content: " + result, Toast.LENGTH_LONG).show();
             }
         }
+    }
+
+    private void setWaitMessage(String message, boolean isProgressVisible) {
+        findViewById(R.id.loadingDeviceAdd).setVisibility(isProgressVisible ? View.VISIBLE : View.GONE);
+
+        ((TextView) findViewById(R.id.waitText))
+                .setText(String.format(getString(R.string.deviceRegResource), message));
+    }
+
+    private void startMainIntent(boolean isSuccessful) {
+        Intent intent = new Intent(activity, MainActivity.class);
+
+        intent.putExtra("deviceWasAdded", isSuccessful);
+        intent.putExtra("afterDeviceAdding", true);
+
+        startActivity(intent);
+        finish();
     }
 }

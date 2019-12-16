@@ -23,4 +23,13 @@
     <string name="action_sign_in">Sign in</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="welcome">"Welcome !"</string>
+    <string name="deviceAddingResource">Please connect your device via NFC</string>
+    <string name="deviceRegResource">Successfully read %s. Please wait while we are registering your device…</string>
+    <string name="health_notification">Health Notification</string>
+    <string name="device_notification">Device Notification</string>
+    <string name="notification_history">Notification History</string>
+    <string name="severity">Severity: %s</string>
+    <string name="advice">Advice: %s</string>
+    <string name="time">Time: %s</string>
+    <string name="total_notif">Total notifications received: %s</string>
 </resources>
