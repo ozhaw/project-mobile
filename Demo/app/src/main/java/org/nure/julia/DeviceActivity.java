@@ -179,12 +179,6 @@ public class DeviceActivity extends AppCompatActivity {
                     payload.length - languageCodeLength - 1, textEncoding);
         }
 
-        private void saveDevice(Device device) {
-            PersistenceContext.INSTANCE.getConnection().deviceRepository().insert(device);
-
-            startMainIntent(true);
-        }
-
         private void verify(String result) {
             Device device = new Gson().fromJson(result, Device.class);
 
@@ -240,7 +234,7 @@ public class DeviceActivity extends AppCompatActivity {
                                 try {
                                     device.id = response.getLong("id");
 
-                                    saveDevice(device);
+                                    startMainIntent(true);
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/device_notif"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/browser_actions_context_menu_min_padding"
+    android:layout_marginBottom="@dimen/card_margin"
+    android:background="#00C90F0F"
+    android:padding="@dimen/activity_vertical_margin"
+    app:cardBackgroundColor="@color/browser_actions_title_color">
+
+    <ImageView
+        android:id="@+id/device_icon"
+        android:layout_width="@android:dimen/notification_large_icon_height"
+        android:layout_height="@dimen/com_facebook_profilepictureview_preset_size_small"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        app:srcCompat="@android:drawable/ic_menu_preferences"
+        tools:srcCompat="@android:drawable/ic_menu_preferences" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="@dimen/simple_avatar_size"
+        android:orientation="vertical"
+        android:padding="@dimen/com_facebook_likeboxcountview_text_padding">
+
+        <TextView
+            android:id="@+id/device_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|top"
+            android:gravity="top|end"
+            android:text="@string/device_notification"
+            android:textAlignment="viewStart"
+            android:textColor="@color/browser_actions_bg_grey"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/device_type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|top"
+            android:gravity="top|end"
+            android:text="@string/device_notification"
+            android:textAlignment="viewStart"
+            android:textColor="@color/browser_actions_bg_grey"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

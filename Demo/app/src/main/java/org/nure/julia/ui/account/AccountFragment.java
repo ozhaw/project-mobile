@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.squareup.picasso.Picasso;
 
 import org.nure.julia.R;
@@ -52,6 +53,9 @@ public class AccountFragment extends Fragment {
                     auth.setImageBitmap(invertImage(BitmapFactory.decodeResource(getResources(), R.drawable.react_icon)));
             }
         }
+
+        FloatingActionButton sync = getActivity().findViewById(R.id.sync);
+        sync.setOnClickListener(view -> {});
         return root;
     }
 

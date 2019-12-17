@@ -17,6 +17,8 @@ import org.nure.julia.database.PersistenceContext;
 
 import java.util.Optional;
 
+import static org.nure.julia.mapper.SystemType.NATIVE;
+
 public class LogoutFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -30,17 +32,9 @@ public class LogoutFragment extends Fragment {
 
         Optional.ofNullable(AuthenticationService.INSTANCE.getAccountDto())
                 .ifPresent(accountDto -> {
-                    switch (accountDto.getSystemType()) {
-                        case GOOGLE:
-                            AuthenticationService.INSTANCE.logoutGoogleAccount();
-                            break;
-                        case FACEBOOK:
-                            AuthenticationService.INSTANCE.logoutFacebookAccount();
-                            break;
-                        case NATIVE:
-                        default:
-                            AuthenticationService.INSTANCE.setAccountDto(null);
-                    }
+                    AuthenticationService.INSTANCE.logoutGoogleAccount();
+                    AuthenticationService.INSTANCE.logoutFacebookAccount();
+                    AuthenticationService.INSTANCE.setAccountDto(null);
                 });
 
         Intent intent = new Intent(getActivity(), LoginActivity.class);
